@@ -7,34 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <img class="logo" src="{% static 'img/pokemon_logo.svg' %}" alt="Pokemon">
-        </div>
-
-        <h2>Team</h2>
-        <div class="team-list">
-            {% for member in team %}
-            <div class="team-item">
-                <img src="{{ member.image }}">
-                <div class="team-info">
-                    <p>{{ member.name }}</p>
-                    <span>#{{ member.id }}</span>
-                </div>
-                <a href="{% url 'remove_team_member' forloop.counter0 %}" class="btn-remove-one">&times;</a>
-            </div>
-            {% empty %}
-            <p class="team-empty">No Pokemon...<br><br>Find your champions,<br> pick your five!</p>
-            {% endfor %}
-            {% if team %}
-                <a href="{% url 'clear_team' %}" class="btn-clear-team">Clear All</a>
-            {% endif %}
-        </div>
-        <hr class="sidebar-separator">
-        {% if team|length == 5 %}
-            <a href="{% url 'combat' %}" class="btn-battle">START BATTLE!</a>
-        {% endif %}
-    </aside>
 
     <main class="main-content">
         <header>
@@ -127,6 +99,35 @@
         </div>
         {% endif %}
     </main>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="{% static 'img/pokemon_logo.svg' %}" alt="Pokemon">
+        </div>
+
+        <h2>Team</h2>
+        <div class="team-list">
+            {% for member in team %}
+            <div class="team-item">
+                <img src="{{ member.image }}">
+                <div class="team-info">
+                    <p>{{ member.name }}</p>
+                    <span>#{{ member.id }}</span>
+                </div>
+                <a href="{% url 'remove_team_member' forloop.counter0 %}" class="btn-remove-one">&times;</a>
+            </div>
+            {% empty %}
+            <p class="team-empty">No Pokemon</p>
+            {% endfor %}
+            {% if team %}
+                <a href="{% url 'clear_team' %}" class="btn-clear-team">Clear All</a>
+            {% endif %}
+        </div>
+        <hr class="sidebar-separator">
+        {% if team|length == 5 %}
+            <a href="{% url 'combat' %}" class="btn-battle">START BATTLE!</a>
+        {% endif %}
+    </aside>
 
 </body>
 </html>
