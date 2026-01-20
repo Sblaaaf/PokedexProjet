@@ -1,0 +1,90 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pokedex - Battle</title>
+    <link rel="stylesheet" href="{% static 'pokedex/style.css' %}">
+</head>
+<body>
+
+    <main class="main-content battle-mode">
+
+        <a href="{% url 'index' %}" class="back-button-main">&larr; Back</a>
+
+        <div class="battle-header">
+            {% if final_result == "VICTORY !" %}
+                <h1 class="result-title win">VICTORY !</h1>
+            {% else %}
+                <h1 class="result-title loose">DEFEAT...</h1>
+            {% endif %}
+            <div class="score-pill">
+                <span class="score-val">{{ player_score }}</span>
+                <span class="score-sep">-</span>
+                <span class="score-val">{{ ai_score }}</span>
+            </div>
+        </div>
+
+        <div class="battle-arena">
+            <div class="battle-row player-row">
+                <div class="row-label">POKEDEX</div>
+                {% for duel in results %}
+                    <div class="battle-card {% if duel.winner == 'player' %}card-win{% else %}card-loose{% endif %}">
+                        <img src="{{ duel.player.image }}">
+                        <div class="battle-info">
+                            <span class="name">{{ duel.player.name }}</span>
+                            <span class="power">Force: {{ duel.player.power }}</span>
+                        </div>
+                        {% if duel.winner == 'player' %}<div class="badge-win">WIN</div>{% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="battle-divider"><span>VS</span></div>
+
+            <div class="battle-row ai-row">
+                <div class="row-label">IA</div>
+                {% for duel in results %}
+                    <div class="battle-card {% if duel.winner == 'ai' %}card-win{% else %}card-loose{% endif %}">
+                        <img src="{{ duel.ai.image }}">
+                        <div class="battle-info">
+                            <span class="name">{{ duel.ai.name }}</span>
+                            <span class="power">Force: {{ duel.ai.power }}</span>
+                        </div>
+                        {% if duel.winner == 'ai' %}<div class="badge-win">WIN</div>{% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="{% static 'img/pokemon_logo.svg' %}" alt="Pokemon">
+        </div>
+
+        <h3>DDetails</h3>
+        <div class="team-list">
+            {% for duel in results %}
+            <div class="team-item">
+                <img src="{{ duel.player.image }}">
+                <div class="team-info">
+                    <p>{{ duel.player.name }}</p>
+                    <span class="duel-result {% if duel.winner == 'player' %}result-win{% else %}result-loose{% endif %}">
+                        {% if duel.winner == 'player' %}Won{% else %}Lost{% endif %}
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <hr class="sidebar-separator">
+
+        <div class="sidebar-actions">
+            <a href="{% url 'reset_combat' %}" class="btn-battle">REPLAY</a>
+            <a href="{% url 'clear_team' %}" class="btn-change-team">Change Team</a>
+        </div>
+    </aside>
+
+</body>
+</html>

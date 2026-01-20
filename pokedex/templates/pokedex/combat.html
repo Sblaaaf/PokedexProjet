@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pokedex - Battle Arena</title>
+    <link rel="stylesheet" href="{% static 'pokedex/style.css' %}">
+</head>
+<body>
+
+    <main class="main-content battle-mode">
+        <a href="{% url 'index' %}" class="back-button-main">&larr; Run Away</a>
+
+        <div class="battle-header">
+            {% if a_idx >= 5 %}
+                <h1 class="result-title win">MISSION ACCOMPLISHED !</h1>
+            {% elif p_idx >= 5 and player_pk.hp <= 0 %}
+                <h1 class="result-title loose">TEAM WIPED OUT...</h1>
+            {% else %}
+                <h1 class="result-title">Battle Arena</h1>
+            {% endif %}
+
+            <div class="battle-announcer">
+                <p>{{ battle_log|default:"A wild opponent appears!" }}</p>
+            </div>
+        </div>
+
+        <div class="battle-arena-v2">
+            
+            <div class="side ai-side">
+                <div class="status-bar">
+                    <div class="info">
+                        <span class="name">{{ ai_pk.name|upper }}</span>
+                        <span class="level">Lv. 50</span>
+                    </div>
+                    <div class="hp-container">
+                        <div class="hp-bar" style="width: {% widthratio ai_pk.hp ai_pk.hp_max 100 %}%"></div>
+                    </div>
+                    <span class="hp-text">{{ ai_pk.hp }} / {{ ai_pk.hp_max }} HP</span>
+                </div>
+                <div class="pokemon-sprite">
+                    <img src="{{ ai_pk.image_front }}" class="sprite-front">
+                </div>
+            </div>
+
+            <div class="side player-side">
+                <div class="pokemon-sprite">
+                    <img src="{{ player_pk.image_back }}" class="sprite-back">
+                </div>
+                <div class="status-bar">
+                    <div class="info">
+                        <span class="name">{{ player_pk.name|upper }}</span>
+                        <span class="level">Lv. 50</span>
+                    </div>
+                    <div class="hp-container">
+                        <div class="hp-bar" style="width: {% widthratio player_pk.hp player_pk.hp_max 100 %}%"></div>
+                    </div>
+                    <span class="hp-text">{{ player_pk.hp }} / {{ player_pk.hp_max }} HP</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="battle-menu">
+            {% if player_pk.hp > 0 and a_idx < 5 %}
+                <a href="{% url 'attack_turn' %}" class="menu-btn attack">FIGHT</a>
+            {% elif player_pk.hp <= 0 and a_idx < 5 %}
+                <p class="force-switch" style="color: #e74c3c; font-weight: 800; text-transform: uppercase;">
+                    Your Pokémon fainted! Select another one &rarr;
+                </p>
+            {% endif %}
+            
+            {% if a_idx >= 5 %}
+                <div class="victory-screen">
+                    <a href="{% url 'reset_combat' %}" class="menu-btn attack" style="background: #2ecc71; box-shadow: 0 6px 0 #27ae60;">NEW BATTLE</a>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="{% static 'img/pokemon_logo.svg' %}" alt="Pokemon">
+        </div>
+
+        <h3>Your Team</h3>
+        <div class="team-list">
+            {% for pk in player_team %}
+            <a href="{% url 'switch_pokemon' forloop.counter0 %}" 
+               class="team-item {% if p_idx == forloop.counter0 %}active{% endif %} {% if pk.hp <= 0 %}fainted{% endif %}">
+                <img src="{{ pk.image_front }}">
+                <div class="team-info">
+                    <p>{{ pk.name }}</p>
+                    <div class="mini-hp-bar">
+                        <div class="fill" style="width: {% widthratio pk.hp pk.hp_max 100 %}%"></div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <hr class="sidebar-separator">
+
+        <div class="sidebar-actions">
+            <a href="{% url 'reset_combat' %}" class="btn-battle">RESET BATTLE</a>
+            <a href="{% url 'clear_team' %}" class="btn-change-team">CHANGE TEAM</a>
+        </div>
+    </aside>
+
+</body>
+</html>

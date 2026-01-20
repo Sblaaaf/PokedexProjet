@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pokedex</title>
+    <link rel="stylesheet" href="{% static 'pokedex/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="{% static 'img/pokemon_logo.svg' %}" alt="Pokemon">
+        </div>
+
+        <h2>Team</h2>
+        <div class="team-list">
+            {% for member in team %}
+            <div class="team-item">
+                <img src="{{ member.image }}">
+                <div class="team-info">
+                    <p>{{ member.name }}</p>
+                    <span>#{{ member.id }}</span>
+                </div>
+                <a href="{% url 'remove_team_member' forloop.counter0 %}" class="btn-remove-one">&times;</a>
+            </div>
+            {% empty %}
+            <p class="team-empty">No Pokemon...<br><br>Find your champions,<br> pick your five!</p>
+            {% endfor %}
+            {% if team %}
+                <a href="{% url 'clear_team' %}" class="btn-clear-team">Clear All</a>
+            {% endif %}
+        </div>
+        <hr class="sidebar-separator">
+        {% if team|length == 5 %}
+            <a href="{% url 'combat' %}" class="btn-battle">START BATTLE!</a>
+        {% endif %}
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <form method="POST" class="search-bar">
+                {% csrf_token %}
+                <input type="text" name="pokemon_name" placeholder="Search...">
+                <button type="submit">GO</button>
+            </form>
+        </header>
+
+        {% if error %}
+            <div class="error-container">
+                <div class="error-message">
+                    {{ error }}
+                </div>
+                <a href="{% url 'index' %}" class="error-link">Back to Home</a>
+            </div>
+
+        {% elif current_pk %}
+
+        <div class="carousel">
+            
+            {% if prev_pk %}
+            <div class="carousel-nav carousel-nav-prev">
+                <a href="/?pokemon_name={{ prev_pk.id }}">
+                    <div class="card-side">
+                        <img src="{{ prev_pk.image }}" alt="{{ prev_pk.name }}">
+                    </div>
+                </a>
+                <a href="/?pokemon_name={{ prev_pk.id }}" class="nav-btn-circle" aria-label="Previous Pokémon">
+                    &#10094;
+                </a>
+            </div>
+            {% else %}
+            <div class="carousel-placeholder"></div>
+            {% endif %}
+
+            <div class="card-main">
+                <span class="bg-id">#{{ current_pk.id }}</span>
+
+                <img src="{{ current_pk.image }}" class="main-image">
+                <h1 class="pokemon-name">{{ current_pk.name }}</h1>
+
+                <div class="types-container">
+                    {% for type in current_pk.types %}
+                        <span class="type-badge type-{{ type }}">{{ type }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value stat-val-atk">{{ current_pk.attack }}</span>
+                        <span class="stat-label">Attack</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value stat-val-def">{{ current_pk.defense }}</span>
+                        <span class="stat-label">Defense</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value stat-val-hp">{{ current_pk.hp }}</span>
+                        <span class="stat-label">HP</span>
+                    </div>
+                </div>
+
+                <p class="evolutions-label">EVOLUTIONS</p>
+                <div class="evolutions-row">
+                    {% for evo in current_pk.evolutions %}
+                        <a href="/?pokemon_name={{ evo.id }}" class="evo-circle" title="{{ evo.name }}">
+                            <img src="{{ evo.image }}" alt="{{ evo.name }}">
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <a href="{% url 'add_team' current_pk.id %}" class="btn-capture">Add to Team</a>
+            </div>
+
+            {% if next_pk %}
+            <div class="carousel-nav carousel-nav-next">
+                <a href="/?pokemon_name={{ next_pk.id }}">
+                    <div class="card-side">
+                        <img src="{{ next_pk.image }}" alt="{{ next_pk.name }}">
+                    </div>
+                </a>
+                <a href="/?pokemon_name={{ next_pk.id }}" class="nav-btn-circle" aria-label="Next Pokémon">
+                    &#10095;
+                </a>
+            </div>
+            {% endif %}
+
+        </div>
+        {% endif %}
+    </main>
+
+</body>
+</html>
