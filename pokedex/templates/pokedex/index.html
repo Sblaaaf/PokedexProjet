@@ -8,6 +8,36 @@
 </head>
 <body>
 
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="{% static 'img/pokemon_logo.svg' %}" alt="Pokemon">
+        </div>
+
+        <h2>My Team</h2>
+        <div class="team-list">
+            {% for member in team %}
+            <div class="team-item">
+                <img src="{{ member.image }}" alt="{{ member.name }}">
+                <div class="team-info">
+                    <p>{{ member.name }}</p>
+                </div>
+                <a href="{% url 'remove_team_member' forloop.counter0 %}" class="btn-remove-one">×</a>
+            </div>
+            {% empty %}
+            <p class="team-empty">Your team is empty...</p>
+            {% endfor %}
+        </div>
+
+        {% if team|length > 0 %}
+        <div class="sidebar-actions">
+            <a href="{% url 'clear_team' %}" class="btn-clear-team">Release All</a>
+            {% if team|length == 5 %}
+                <a href="{% url 'combat' %}" class="btn-battle">FIGHT !</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </aside>
+
     <main class="main-content">
         <header>
             <form method="POST" class="search-bar">
@@ -80,7 +110,7 @@
                     {% endfor %}
                 </div>
 
-                <a href="{% url 'add_team' current_pk.id %}" class="btn-capture">Add to Team</a>
+                <a href="{% url 'add_to_team' current_pk.id %}" class="btn-capture">Add to Team</a>
             </div>
 
             {% if next_pk %}
@@ -100,34 +130,7 @@
         {% endif %}
     </main>
 
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <img class="logo" src="{% static 'img/pokemon_logo.svg' %}" alt="Pokemon">
-        </div>
-
-        <h2>Team</h2>
-        <div class="team-list">
-            {% for member in team %}
-            <div class="team-item">
-                <img src="{{ member.image }}">
-                <div class="team-info">
-                    <p>{{ member.name }}</p>
-                    <span>#{{ member.id }}</span>
-                </div>
-                <a href="{% url 'remove_team_member' forloop.counter0 %}" class="btn-remove-one">&times;</a>
-            </div>
-            {% empty %}
-            <p class="team-empty">No Pokemon</p>
-            {% endfor %}
-            {% if team %}
-                <a href="{% url 'clear_team' %}" class="btn-clear-team">Clear All</a>
-            {% endif %}
-        </div>
-        <hr class="sidebar-separator">
-        {% if team|length == 5 %}
-            <a href="{% url 'combat' %}" class="btn-battle">START BATTLE!</a>
-        {% endif %}
-    </aside>
+    
 
 </body>
 </html>

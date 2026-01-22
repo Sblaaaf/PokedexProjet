@@ -6,6 +6,47 @@
     <link rel="stylesheet" href="{% static 'pokedex/style.css' %}">
 </head>
 <body>
+    <div id="loader" style="position:fixed; width:100%; height:100%; background:white; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <img src="{% static 'img/pokemon_logo.svg' %}" style="width: 200px;">
+        <p>Loading Pokedex data...</p>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            document.getElementById('loader').style.display = 'none';
+        })
+    </script>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="{% static 'img/pokemon_logo.svg' %}" alt="Pokemon">
+        </div>
+
+        <h2>My Team</h2>
+        <div class="team-list">
+            {% for member in team %}
+            <div class="team-item">
+                <img src="{{ member.image }}" alt="{{ member.name }}">
+                <div class="team-info">
+                    <p>{{ member.name }}</p>
+                    <span>ID: #{{ member.id }}</span>
+                </div>
+                <a href="{% url 'remove_team_member' forloop.counter0 %}" class="btn-remove-one">×</a>
+            </div>
+            {% empty %}
+            <p class="team-empty">Your team is empty...</p>
+            {% endfor %}
+        </div>
+
+        {% if team|length > 0 %}
+        <div class="sidebar-actions">
+            <a href="{% url 'clear_team' %}" class="btn-clear-team">Release All</a>
+            {% if team|length == 5 %}
+                <a href="{% url 'combat' %}" class="btn-battle">FIGHT !</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </aside>
 
     <main class="main-content battle-mode">
         <a href="{% url 'index' %}" class="back-button-main">&larr; Run Away</a>
@@ -76,35 +117,6 @@
             {% endif %}
         </div>
     </main>
-
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <img class="logo" src="{% static 'img/pokemon_logo.svg' %}" alt="Pokemon">
-        </div>
-
-        <h3>Your Team</h3>
-        <div class="team-list">
-            {% for pk in player_team %}
-            <a href="{% url 'switch_pokemon' forloop.counter0 %}" 
-               class="team-item {% if p_idx == forloop.counter0 %}active{% endif %} {% if pk.hp <= 0 %}fainted{% endif %}">
-                <img src="{{ pk.image_front }}">
-                <div class="team-info">
-                    <p>{{ pk.name }}</p>
-                    <div class="mini-hp-bar">
-                        <div class="fill" style="width: {% widthratio pk.hp pk.hp_max 100 %}%"></div>
-                    </div>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
-
-        <hr class="sidebar-separator">
-
-        <div class="sidebar-actions">
-            <a href="{% url 'reset_combat' %}" class="btn-battle">RESET BATTLE</a>
-            <a href="{% url 'clear_team' %}" class="btn-change-team">CHANGE TEAM</a>
-        </div>
-    </aside>
 
 </body>
 </html>

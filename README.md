@@ -4,7 +4,7 @@ Ce projet est un Pokédex interactif réalisé en Python avec le framework Djang
 Il utilise l'API publique PokeApi pour récupérer les données.
 
 ## Fonctionnalités
-1.  **Recherche** : Recherche de Pokémon par nom ou numéro (gestion des 150 premiers et plus).
+1.  **Recherche** : Recherche de Pokémon par nom ou numéro (gestion des 251 premiers et plus).
 2.  **Navigation** : Boutons Suivant/Précédent pour parcourir le Pokédex.
 3.  **Gestion d'équipe** : Possibilité de constituer une équipe de 5 Pokémon.
 4.  **Système de Combat** : Affrontement entre l'équipe du joueur et une IA générée aléatoirement basé sur la "force" (expérience de base) des Pokémon.

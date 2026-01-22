@@ -1,12 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
 
+* {
+    box-sizing: border-box;
+}
+
 :root {
     --bg-color: #F6F8FC;
     --card-bg: #FFFFFF;
     --text-main: #333333;
     --text-light: #A0A0A0;
     --accent: #6C5CE7;
-    --shadow: 0 10px 40px rgba(0,0,0,0.08);
+    --shadow: 0 0.625rem 2.5rem rgba(0,0,0,0.08);
 }
 
 body {
@@ -16,31 +20,34 @@ body {
     padding: 0;
     color: var(--text-main);
     display: flex;
+    width: 100%;
     height: 100vh;
     overflow: hidden;
 }
 
 /* MAIN */
 .main-content {
+    transform: scale(0.95);
     flex: 1;
     display: flex;
+    gap: 2rem;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow-y: auto;
-    gap: 3rem;
+    overflow: hidden;
+    padding: 2rem;
 }
 
 /* Recherche */
 .search-bar {
     background: white;
-    padding: 10px 20px;
-    border-radius: 50px;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    border-radius: 5rem;
     box-shadow: var(--shadow);
     display: flex;
     align-items: center;
-    width: 300px;
+    width: 20rem;
 }
 input[type="text"] {
     border: none;
@@ -53,8 +60,8 @@ button {
     background: var(--accent);
     color: white;
     border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
     cursor: pointer;
     font-weight: 600;
     transition: transform 0.2s;
@@ -63,46 +70,62 @@ button:hover { transform: scale(1.05); }
 
 /* CARTES */
 .carousel {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 40px;
-    perspective: 1000px;
+    gap: 1rem;
+    perspective: 70rem;
+    width: 100%;
+    max-width: 40rem;
+    padding: 1rem;
 }
 
 .carousel-nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 0.6rem;
 }
 
 .carousel-placeholder {
-    width: 150px;
+    width: clamp(8rem, 12vw, 9.5rem);
 }
 
 .card-side {
     opacity: 0.5;
-    transform: scale(0.8) translateZ(-50px);
-    filter: blur(2px);
+    transform: scale(0.8) translateZ(-3.125rem);
+    filter: blur(0.125rem);
     transition: all 0.4s ease;
     cursor: pointer;
 }
-.card-side img { width: 150px; }
+.card-side img {
+    width: 100%;
+}
 
 .card-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
     background: white;
-    width: 320px;
-    border-radius: 30px;
-    padding: 30px;
+    width: 20rem;
+    border-radius: 2rem;
+    padding: 1rem;
     box-shadow: var(--shadow);
     text-align: center;
     position: relative;
     z-index: 10;
     transform: scale(1);
     transition: all 0.4s ease;
+    justify-self: center;
 }
 
-.pokemon-id { color: var(--text-light); font-weight: 600; display: block; margin-bottom: 5px;}
+.pokemon-id {
+    color: var(--text-light);
+    font-weight: 600; 
+    display: block; 
+}
+
 .pokemon-name {
     font-size: 2rem;
     font-weight: 800;
@@ -117,15 +140,15 @@ button:hover { transform: scale(1.05); }
 .types-container {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin: 15px 0;
+    gap: 0.5rem;
     position: relative;
     z-index: 2;
+    margin-bottom: 0.5rem;
 }
 .type-badge {
-    padding: 5px 15px;
-    border-radius: 15px;
-    font-size: 0.8rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     color: white;
@@ -142,53 +165,56 @@ button:hover { transform: scale(1.05); }
 .stats-grid {
     display: flex;
     justify-content: space-around;
-    margin: 20px 0;
     background: #F9F9F9;
-    padding: 15px;
-    border-radius: 20px;
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 100%;
 }
 .stat-item { text-align: center; }
 .stat-value { display: block; font-weight: 800; font-size: 1.1rem; }
-.stat-label { font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;}
+.stat-label { font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em;}
 
 /* Évolutions */
 .evolutions-row {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
+    gap: 0.6rem;
+    padding-top: 0.9rem;
+    border-top: 0.0625rem solid #eee;
 }
 .evolutions-label {
     font-size: 0.7rem;
     color: #aaa;
-    margin-bottom: 5px;
 }
 .evo-circle {
-    width: 50px;
-    height: 50px;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
     background: #f1f2f6;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: transform 0.2s;
-    border: 2px solid transparent;
+    border: 0.125rem solid transparent;
 }
-.evo-circle:hover { border-color: var(--accent); transform: scale(1.1); }
-.evo-circle img { width: 35px; }
+.evo-circle:hover {
+    border-color: var(--accent);
+    transform: scale(1.1);
+}
+.evo-circle img {
+    width: 2.2rem;
+}
 
 /* AJout */
 .btn-capture {
+    width: 100%;
     display: block;
     background: var(--text-main);
     color: white;
     text-decoration: none;
-    padding: 12px;
-    margin-top: 20px;
-    border-radius: 15px;
+    padding: 0.75rem;
+    border-radius: 0.9rem;
     font-weight: 600;
     transition: background 0.3s;
 }
@@ -198,15 +224,15 @@ button:hover { transform: scale(1.05); }
 /* Rebond */
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-0.65rem); }
 }
 
 .main-image {
-    width: 280px;
-    height: 280px;
+    width: clamp(12rem, 22vw, 17rem);
+    height: clamp(12rem, 22vw, 17rem);
     object-fit: contain;
-    margin-top: -80px;
-    filter: drop-shadow(0 20px 20px rgba(0,0,0,0.3));
+    margin-top: -4.5rem;
+    filter: drop-shadow(0 1.25rem 1.25rem rgba(0,0,0,0.3));
    
     animation: bounce 3s infinite ease-in-out;
     transition: transform 0.3s ease;
@@ -215,7 +241,7 @@ button:hover { transform: scale(1.05); }
 }
 
 .main-image:hover {
-    transform: scale(1.15) translateY(-10px);
+    transform: scale(1.15) translateY(-0.65rem);
     cursor: pointer;
 }
 
@@ -224,7 +250,7 @@ button:hover { transform: scale(1.05); }
     position: absolute;
     top: 1rem;
     right: 1rem;
-    font-size: 3rem;
+    font-size: clamp(2.2rem, 4vw, 3rem);
     font-weight: 900;
     color: rgba(0, 0, 0, 0.05);
     z-index: 0;
@@ -242,17 +268,17 @@ button:hover { transform: scale(1.05); }
 /* nav */
 .nav-btn-circle {
     background: white;
-    width: 50px;
-    height: 50px;
+    width: 3.1rem;
+    height: 3.1rem;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 0.32rem 0.95rem rgba(0,0,0,0.1);
     color: var(--text-main);
     text-decoration: none;
     font-weight: 800;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     transition: all 0.2s;
     z-index: 50;
 }
@@ -268,7 +294,6 @@ button:hover { transform: scale(1.05); }
     flex-direction: column;
     gap: 1rem;
     align-items: center;
-    margin-bottom: 20px;
 }
 
 .logo {
@@ -279,54 +304,55 @@ button:hover { transform: scale(1.05); }
     color: #ff7675;
     text-decoration: none;
     font-weight: bold;
-    font-size: 1.2rem;
-    padding: 0 10px;
+    font-size: 1.1rem;
+    padding: 0 0.6rem;
     cursor: pointer;
 }
 .btn-remove-one:hover { color: #d63031; transform: scale(1.2); }
 
 .btn-clear-team {
     display: block;
-    margin-top: 10px;
     text-align: center;
     color: #ff7675;
     font-size: 0.8rem;
     font-weight: 600;
     text-decoration: none;
-    border: 1px solid #ff7675;
-    padding: 5px 10px;
-    border-radius: 10px;
+    border: 0.1rem solid #ff7675;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
     transition: 0.2s;
 }
 .btn-clear-team:hover { background: #ff7675; color: white; }
 
 .sidebar {
-    width: 280px;
+    width: 20rem; 
     background: white;
-    padding: 30px;
-    box-shadow: -5px 0 30px rgba(0,0,0,0.05);
+    padding: 2rem;
+    box-shadow: -0.3125rem 0 1.875rem rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 0.75rem;
     z-index: 100;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar h2 { font-size: 1.2rem;}
 .team-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.6rem;
     flex: 1;
 }
 .team-item {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 0.9rem;
     background: var(--bg-color);
-    padding: 10px;
-    border-radius: 15px;
+    padding: 0.65rem;
+    border-radius: 0.9rem;
 }
-.team-item img { width: 40px; }
+.team-item img { width: 2.5rem; }
 .team-info p { margin: 0; font-size: 0.9rem; font-weight: 600; text-transform: capitalize; }
 .team-info span { font-size: 0.7rem; color: var(--text-light); }
 
@@ -337,7 +363,6 @@ button:hover { transform: scale(1.05); }
 .team-empty {
     color: #aaa;
     text-align: center;
-    margin-top: 50px;
 }
 
 .btn-battle {
@@ -345,22 +370,21 @@ button:hover { transform: scale(1.05); }
     background: #ff7675;
     color: white;
     text-align: center;
-    padding: 15px;
-    border-radius: 15px;
+    padding: 0.9rem;
+    border-radius: 0.9rem;
     text-decoration: none;
     font-weight: 800;
 }
 
 .sidebar-separator {
     border: 0;
-    border-top: 1px solid #eee;
-    margin: 10px 0;
+    border-top: 0.0625rem solid #eee;
 }
 
 .sidebar-actions {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.65rem;
 }
 
 /* erreur */
@@ -371,9 +395,8 @@ button:hover { transform: scale(1.05); }
 .error-message {
     background: #ff7675;
     color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    padding: 0.6rem 1.1rem;
+    border-radius: 0.7rem;
 }
 
 .error-link {
@@ -381,210 +404,22 @@ button:hover { transform: scale(1.05); }
     text-decoration: underline;
 }
 
-/* COMBAT */
-
-.battle-mode {
-    background-color: #f0f2f5;
-    justify-content: flex-start;
-    padding-top: 40px;
-    overflow-y: scroll;
-    gap: 24px;
-}
-
-.back-button-main {
-    align-self: flex-start;
-    margin-left: 20px;
-    padding: 6px 10px;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    text-decoration: none;
-    color: var(--text-light);
-    background: transparent;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.back-button-main:hover {
-    background: rgba(0,0,0,0.04);
-    color: var(--text-main);
-}
-
-.battle-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-    width: 100%;
-    padding: 10px 20px;
-}
-
-.battle-header-left {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.battle-label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-light);
-}
-.result-title {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: -0.5px;
-}
-.result-title.win { color: #00b894; }
-.result-title.loose { color: #d63031; }
-
-.result-subtitle { color: var(--text-light); margin-top: 5px; }
-
-.battle-header-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-}
-
-.score-label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-light);
-}
-
-.score-pill {
-    background: white;
-    display: inline-flex;
-    padding: 6px 16px;
-    border-radius: 999px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-main);
-}
-.score-sep { margin: 0 15px; color: var(--text-light); }
-
-/* ARÈNE */
-.battle-arena {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-    max-width: 1000px;
-}
-
-.battle-row {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    position: relative;
-    padding: 20px;
-    border-radius: 20px;
-    width: 100%;
-}
-
-.player-row { background: rgba(108, 92, 231, 0.05); } 
-.ai-row { background: rgba(45, 52, 54, 0.05); }
-
-.row-label {
-    position: absolute;
-    left: 40px;
-    top: 0;
-    transform: translateY(-50%);
-    font-weight: 800;
-    color: var(--text-light);
-    font-size: 1rem;
-    z-index: 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
-
-.battle-card {
-    background: white;
-    width: 140px;
-    padding: 15px;
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    text-align: center;
-    position: relative;
-    transition: all 0.3s ease;
-    z-index: 1;
-}
-
-.battle-card img {
-    width: 110px;
-    height: 110px;
-    object-fit: contain;
-}
-.battle-info { margin-top: 10px; }
-.battle-info .name { display: block; font-weight: 600; font-size: 0.8rem; text-transform: capitalize; }
-.battle-info .power { display: block; font-size: 0.7rem; color: var(--text-light); }
-
-/* Victoire / Défaite */
-.card-win {
-    transform: scale(1.05);
-    border: 2px solid #00b894;
-    box-shadow: 0 10px 30px rgba(0, 184, 148, 0.2);
-    z-index: 2;
-}
-
-.card-loose {
-    filter: grayscale(100%);
-    opacity: 0.6;
-    transform: scale(0.95);
-}
-
-.badge-win {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: #00b894;
-    color: white;
-    font-size: 0.6rem;
-    font-weight: 800;
-    padding: 5px 10px;
-    border-radius: 10px;
-}
-
-/* VS */
-.battle-divider {
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.battle-divider span {
-    background: var(--text-main);
-    color: white;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-weight: 800;
-    font-size: 0.8rem;
-}
-
 /* BOUTONS */
 .battle-actions {
-    margin-top: 40px;
-    margin-bottom: 40px;
     display: flex;
-    gap: 20px;
+    gap: 1.25rem;
 }
 .btn-action {
-    padding: 15px 30px;
-    border-radius: 15px;
+    padding: 0.95rem 1.9rem;
+    border-radius: 0.95rem;
     text-decoration: none;
     font-weight: 600;
     transition: transform 0.2s;
 }
 .btn-action:hover { transform: scale(1.05); }
 
-.btn-action.primary { background: var(--accent); color: white; box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4); }
-.btn-action.secondary { background: white; color: var(--text-main); border: 2px solid #eee; }
+.btn-action.primary { background: var(--accent); color: white; box-shadow: 0 0.32rem 0.95rem rgba(108, 92, 231, 0.4); }
+.btn-action.secondary { background: white; color: var(--text-main); border: 0.125rem solid #eee; }
 
 .btn-replay {
     background: var(--accent);
@@ -593,11 +428,11 @@ button:hover { transform: scale(1.05); }
 .btn-change-team{
     text-align: center;
     display: block;
-    border: 1px solid var(--accent);
+    border: 0.0625rem solid var(--accent);
     color: var(--accent);
     text-decoration: none;
-    padding: 12px;
-    border-radius: 15px;
+    padding: 0.75rem;
+    border-radius: 0.95rem;
     font-weight: 600;
     transition: background 0.3s;
 }
@@ -620,155 +455,4 @@ button:hover { transform: scale(1.05); }
     text-align: center;
     color: #aaa;
     text-decoration: none;
-}
-
-/* ARENA V2 */
-
-.battle-arena-v2 {
-    width: 100%;
-    max-width: 800px;
-    height: 400px;
-    position: relative;
-    background: linear-gradient(to bottom, #e0f7fa 0%, #e8f5e9 100%);
-    border-radius: 30px;
-    overflow: hidden;
-    border: 8px solid #333;
-    box-shadow: var(--shadow);
-}
-
-.side {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
-}
-
-/* IA */
-.ai-side {
-    top: 40px;
-    right: 50px;
-}
-
-/* Joueur */
-.player-side {
-    bottom: 20px;
-    left: 50px;
-    flex-direction: column-reverse;
-}
-
-/* Pokémon */
-.sprite-front {
-    width: 180px;
-    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
-}
-
-.sprite-back {
-    width: 240px;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
-}
-
-/* Status (Nom + HP) */
-.status-bar {
-    background: #fff;
-    border: 3px solid #333;
-    border-radius: 10px 0 10px 0;
-    padding: 10px;
-    width: 220px;
-    box-shadow: 5px 5px 0 rgba(0,0,0,0.1);
-}
-
-.status-bar .info {
-    display: flex;
-    justify-content: space-between;
-    font-weight: 800;
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-}
-
-/* barre HP */
-.hp-container {
-    background: #eee;
-    height: 12px;
-    border: 2px solid #333;
-    border-radius: 6px;
-    overflow: hidden;
-    position: relative;
-}
-
-.hp-bar {
-    height: 100%;
-    background: #2ecc71;
-    transition: width 0.5s ease-out; 
-}
-
-.hp-text {
-    font-size: 0.7rem;
-    font-weight: 600;
-    display: block;
-    text-align: right;
-    margin-top: 4px;
-}
-
-/* Battle-log */
-.battle-announcer {
-    background: #333;
-    color: white;
-    padding: 15px 30px;
-    border-radius: 15px;
-    min-width: 400px;
-    text-align: center;
-    font-family: 'monospace';
-    border: 3px solid var(--accent);
-}
-
-/* Menu d'actions */
-.battle-menu {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
-}
-
-.menu-btn.attack {
-    background: #e74c3c;
-    color: white;
-    padding: 20px 50px;
-    font-size: 1.5rem;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 6px 0 #c0392b;
-    text-decoration: none;
-    font-weight: 800;
-}
-
-.menu-btn.attack:active {
-    transform: translateY(3px);
-    box-shadow: 0 3px 0 #c0392b;
-}
-
-/* Pokémon K.O. */
-.team-item.fainted {
-    opacity: 0.5;
-    filter: grayscale(1);
-    pointer-events: none;
-}
-
-.team-item.active {
-    border: 2px solid var(--accent);
-    background: #efecff;
-}
-
-/* barre de vie dans la sidebar */
-.mini-hp-bar {
-    height: 6px;
-    background: #ddd;
-    border-radius: 3px;
-    margin-top: 5px;
-    overflow: hidden;
-}
-.mini-hp-bar .fill {
-    height: 100%;
-    background: #2ecc71;
 }
