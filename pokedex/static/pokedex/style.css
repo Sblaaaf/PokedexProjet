@@ -98,6 +98,7 @@ button:hover { transform: scale(1.05); }
     flex-direction: column;
     align-items: center;
     width: clamp(8rem, 12vw, 9.5rem);
+    min-height: 15rem;
 }
 
 .carousel-nav-next {
@@ -833,6 +834,74 @@ button:hover { transform: scale(1.05); }
 .btn-attack:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+}
+
+.btn-sidebar-restart,
+.btn-sidebar-new {
+    display: block;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-sidebar-restart {
+    background: #e74c3c;
+}
+
+.btn-sidebar-restart:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.btn-sidebar-new {
+    background: #f39c12;
+}
+
+.btn-sidebar-new:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+}
+
+.btn-sidebar-restart,
+.btn-sidebar-new {
+    display: block;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-sidebar-restart {
+    background: #e74c3c;
+}
+
+.btn-sidebar-restart:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.btn-sidebar-new {
+    background: #f39c12;
+}
+
+.btn-sidebar-new:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
 }
 
 .battle-status {

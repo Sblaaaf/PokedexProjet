@@ -28,4 +28,5 @@ urlpatterns = [
     path('switch/<int:index>/', views.switch_pokemon, name='switch_pokemon'),
     path('reset_combat/', views.reset_combat, name='reset_combat'),
     path('stop_combat/', views.stop_combat, name='stop_combat'),
+    path('new_opponent/', views.new_opponent, name='new_opponent'),
 ]

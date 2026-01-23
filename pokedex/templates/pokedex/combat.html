@@ -89,52 +89,14 @@
                 </div>
                 {% endfor %}
             </div>
+            {% if battle_started %}
+            <a href="{% url 'reset_combat' %}" class="btn-sidebar-restart">Restart Battle</a>
+            {% endif %}
         </div>
     </aside>
 
     <main class="main-content-battle">
-        {% if not battle_started %}
-        <!-- Écran de sélection du Pokémon initial -->
-        <div class="battle-selection-screen">
-            <div class="selection-container">
-                <h1 class="selection-title">Choose Your Starter</h1>
-                <p class="selection-subtitle">Select the Pokémon you want to start with</p>
-                
-                <div class="starter-selection">
-                    {% for member in player_team %}
-                        {% if member.hp > 0 %}
-                        <a href="{% url 'start_combat' forloop.counter0 %}" class="starter-card">
-                            <img src="{{ member.image }}" alt="{{ member.name }}" class="starter-img">
-                            <div class="starter-info">
-                                <p class="starter-name">{{ member.name }}</p>
-                                <div class="hp-bar-combat">
-                                    <div class="hp-fill-combat" style="width: {% widthratio member.hp member.hp_max 100 %}%"></div>
-                                </div>
-                                <span class="hp-text-combat">{{ member.hp }}/{{ member.hp_max }}</span>
-                            </div>
-                        </a>
-                        {% else %}
-                        <div class="starter-card disabled">
-                            <img src="{{ member.image }}" alt="{{ member.name }}" class="starter-img">
-                            <div class="starter-info">
-                                <p class="starter-name">{{ member.name }}</p>
-                                <div class="hp-bar-combat">
-                                    <div class="hp-fill-combat"></div>
-                                </div>
-                                <span class="hp-text-combat">0/{{ member.hp_max }}</span>
-                            </div>
-                            <span class="fainted-label">Fainted</span>
-                        </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                
-                <a href="{% url 'index' %}" class="btn-cancel-selection">Cancel</a>
-            </div>
-        </div>
-        
-        {% else %}
-        <!-- Écran de bataille normal -->
+        {% if battle_started %}
         <header class="battle-header-top">
             <div class="btn_back_container">
                 <button class="btn-action-header" onclick="goBack()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M41.4 297.4C28.9 309.9 28.9 330.2 41.4 342.7L169.4 470.7C181.9 483.2 202.2 483.2 214.7 470.7C227.2 458.2 227.2 437.9 214.7 425.4L141.3 352L576 352C593.7 352 608 337.7 608 320C608 302.3 593.7 288 576 288L141.3 288L214.7 214.6C227.2 202.1 227.2 181.8 214.7 169.3C202.2 156.8 181.9 156.8 169.4 169.3L41.4 297.3z"/></svg> Back to Pokedex</button>
@@ -146,6 +108,7 @@
 
         <div class="arena-wrapper">
             <div class="battle-arena">
+                {% if player_pk %}
                 <div class="pokemon-zone player-zone">
                     <div class="pokemon-card">
                         <img src="{{ player_pk.image }}" alt="{{ player_pk.name }}" class="pokemon-img">
@@ -165,6 +128,7 @@
                 </div>
 
                 <div class="battle-vs">VS</div>
+                {% endif %}
 
                 <div class="pokemon-zone enemy-zone">
                     <div class="pokemon-card">
@@ -185,15 +149,13 @@
                 </div>
             </div>
         </div>
+        {% endif %}
 
-        {% if player_pk.hp > 0 and a_idx < 5 %}
-        <div class="battle-actions">
-            <a href="{% url 'attack_turn' %}" class="btn-attack">ATTACK</a>
-        </div>
-        {% elif player_pk.hp <= 0 and a_idx < 5 %}
-        <div class="battle-status">
-            <p class="status-message">Your {{ player_pk.name|upper }} has fainted!</p>
-            <p class="status-hint">Select another Pokémon from your team to continue.</p>
+        {% if p_idx >= 5 %}
+        <div class="battle-end defeat">
+            <p class="end-title">DEFEAT!</p>
+            <p class="end-message">Your entire team has been defeated.</p>
+            <a href="{% url 'index' %}" class="btn-return">Return to Pokedex</a>
         </div>
         {% elif a_idx >= 5 %}
         <div class="battle-end victory">
@@ -204,13 +166,15 @@
                 <a href="{% url 'index' %}" class="btn-return">Return to Pokedex</a>
             </div>
         </div>
-        {% elif p_idx >= 5 %}
-        <div class="battle-end defeat">
-            <p class="end-title">DEFEAT!</p>
-            <p class="end-message">Your entire team has been defeated.</p>
-            <a href="{% url 'index' %}" class="btn-return">Return to Pokedex</a>
+        {% elif player_pk.hp <= 0 %}
+        <div class="battle-status">
+            <p class="status-message">Your {{ player_pk.name|upper }} has fainted!</p>
+            <p class="status-hint">Select another Pokémon from your team to continue.</p>
         </div>
-        {% endif %}
+        {% elif player_pk.hp > 0 %}
+        <div class="battle-actions">
+            <a href="{% url 'attack_turn' %}" class="btn-attack">ATTACK</a>
+        </div>
         {% endif %}
     </main>
 
@@ -234,6 +198,9 @@
                 </div>
                 {% endfor %}
             </div>
+            {% if battle_started %}
+            <a href="{% url 'new_opponent' %}" class="btn-sidebar-new">New Opponent</a>
+            {% endif %}
         </div>
     </aside>
 
