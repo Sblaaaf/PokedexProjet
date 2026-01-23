@@ -6,16 +6,7 @@ API_URL = "https://pokeapi.co/api/v2/pokemon/"
 SPECIES_URL = "https://pokeapi.co/api/v2/pokemon-species/"
 
 def get_pk_data(id_or_name):
-    """
-    Récupère les données d'un Pokémon depuis l'API PokeAPI.
-    
-    Args:
-        id_or_name (int/str): ID ou nom du Pokémon
-        
-    Returns:
-        dict: Dictionnaire contenant id, name, image, stats, types, species_url
-        None: Si le Pokémon n'existe pas ou erreur API
-    """
+    # interroge API pour choper les données
     try:
         res = requests.get(f"{API_URL}{str(id_or_name).lower()}")
         if res.status_code == 200:
@@ -39,15 +30,7 @@ def get_pk_data(id_or_name):
         return None
 
 def get_evolutions(species_url):
-    """
-    Récupère la chaîne d'évolution d'un Pokémon.
-    
-    Args:
-        species_url (str): URL API de l'espèce
-        
-    Returns:
-        list: Liste des Pokémon de la chaîne d'évolution
-    """
+    # SPEICIES_URL + id pour évolution
     evo_list = []
     try:
         species_res = requests.get(species_url)
@@ -82,9 +65,7 @@ def get_evolutions(species_url):
     return evo_list
 
 def index(request):
-    """
-    Page principale du Pokédex. Affiche un Pokémon et son équipe.
-    """
+    # Pokémon + équipe.
     current_search = request.POST.get('pokemon_name') or request.GET.get('pokemon_name', '1')
     
     if 'team' not in request.session:
@@ -114,11 +95,9 @@ def index(request):
     return render(request, 'pokedex/index.html', context)
 
 def add_to_team(request, pokemon_id):
-    """
-    Ajoute un Pokémon à l'équipe (max 5). Empêche les doublons.
-    """
+    # Ajoute un Pokémon à team
     team = request.session.get('team', [])
-    if len(team) < 5:
+    if len(team) < 5: # max 5
         new_pk = get_pk_data(str(pokemon_id))
         if new_pk:
             team.append(new_pk)
@@ -127,9 +106,7 @@ def add_to_team(request, pokemon_id):
     return redirect(f'/?pokemon_name={pokemon_id}')
 
 def remove_team_member(request, member_index):
-    """
-    Retire un Pokémon de l'équipe par son index.
-    """
+  # Supprime de team
     team = request.session.get('team', [])
     if 0 <= member_index < len(team):
         del team[member_index]
@@ -138,44 +115,41 @@ def remove_team_member(request, member_index):
     return redirect('index')
 
 def clear_team(request):
-    """
-    Vide complètement l'équipe.
-    """
+   # reset l'équipe
     request.session['team'] = []
     return redirect('index')
 
 def combat(request):
-    """
-    Gère l'affichage du combat. Démarre automatiquement avec le premier Pokémon disponible.
-    """
+   # Affiche combat
     player_team = request.session.get('team', [])
     if len(player_team) == 0:
         return redirect('index')
 
     battle_started = request.session.get('battle_started', False)
-    
+    # Init
     if not battle_started:
         first_available = next((i for i, p in enumerate(player_team) if p['hp'] > 0), 0)
         request.session['battle_started'] = True
         request.session['player_active_idx'] = first_available
         request.session.modified = True
-    
+    # equipe adverse
     if 'ai_team' not in request.session:
         ai_team = [get_pk_data(random.randint(1, 251)) for _ in range(5)]
         request.session['ai_team'] = ai_team
         request.session['player_active_idx'] = 0
         request.session['ai_active_idx'] = 0
-
+    # Affichage
     p_idx = request.session.get('player_active_idx', 0)
     a_idx = request.session.get('ai_active_idx', 0)
     ai_team = request.session['ai_team']
-    
+    # Vérif KO
     if p_idx >= len(player_team):
         next_idx = next((i for i in range(len(player_team)) if player_team[i]['hp'] > 0), None)
+        # Cherche le next 
         if next_idx is not None:
             p_idx = next_idx
             request.session['player_active_idx'] = p_idx
-    
+    # Limite
     if a_idx >= 5:
         a_idx = 4
     
@@ -190,11 +164,9 @@ def combat(request):
     }
     return render(request, 'pokedex/combat.html', context)
 
+# Démarre le combat
 def start_combat(request, pokemon_idx):
-    """
-    Initie le combat avec un Pokémon de l'équipe du joueur.
-    Génère une équipe adverse aléatoire de 5 Pokémon.
-    """
+    # Init le combat avec le Pokémon choisi
     player_team = request.session.get('team', [])
     
     if pokemon_idx < 0 or pokemon_idx >= len(player_team) or player_team[pokemon_idx]['hp'] <= 0:
@@ -209,22 +181,17 @@ def start_combat(request, pokemon_idx):
     
     return redirect('combat')
 
+# fitht turn
 def attack_turn(request):
-    """
-    Effectue un tour de combat:
-    1. Le joueur attaque
-    2. L'ennemi contre-attaque si vivant
-    3. Change de Pokémon ennemi si KO
-    4. Cherche le prochain Pokémon du joueur si KO
-    """
+  # étapes : attaque joueur, vérif KO, attaque IA, vérif KO
     player_team = request.session.get('team')
     ai_team = request.session.get('ai_team')
     p_idx = request.session.get('player_active_idx', 0)
     a_idx = request.session.get('ai_active_idx', 0)
-    
+    # actif
     p_pk = player_team[p_idx]
     ai_pk = ai_team[a_idx]
-
+    # attaque joueur
     damage = max(10, p_pk['attack'] - (ai_pk['defense'] // 2))
     ai_pk['hp'] -= damage
 
@@ -232,6 +199,7 @@ def attack_turn(request):
         ai_pk['hp'] = 0
         request.session['ai_active_idx'] = a_idx + 1
     else:
+        # attaque IA
         ai_damage = max(10, ai_pk['attack'] - (p_pk['defense'] // 2))
         p_pk['hp'] -= ai_damage
         if p_pk['hp'] <= 0:
@@ -247,17 +215,12 @@ def attack_turn(request):
     return redirect('combat')
 
 def switch_pokemon(request, index):
-    """
-    Change le Pokémon actif du joueur.
-    """
+# switch 
     request.session['player_active_idx'] = index
     return redirect('combat')
 
 def reset_combat(request):
-    """
-    Réinitialise le combat pour une nouvelle bataille.
-    Restaure la vie de tous les Pokémon du joueur.
-    """
+    # Reset le combat + vie
     keys = ['ai_team', 'player_active_idx', 'ai_active_idx', 'battle_log', 'battle_started']
     for k in keys:
         if k in request.session: 
@@ -271,10 +234,7 @@ def reset_combat(request):
     return redirect('combat')
 
 def stop_combat(request):
-    """
-    Termine le combat et retourne au Pokédex.
-    Restaure la vie de tous les Pokémon du joueur.
-    """
+    # Termine le combat et retourne au Pokédex.
     keys = ['ai_team', 'player_active_idx', 'ai_active_idx', 'battle_log', 'battle_started']
     for k in keys:
         if k in request.session: 
@@ -288,15 +248,12 @@ def stop_combat(request):
     return redirect('index')
 
 def new_opponent(request):
-    """
-    Génère une nouvelle équipe adverse et recommence le combat.
-    Restaure la vie de tous les Pokémon du joueur.
-    """
+    # Nouvelle équipe adverse
     keys = ['ai_team', 'player_active_idx', 'ai_active_idx', 'battle_log', 'battle_started']
     for k in keys:
         if k in request.session: 
             del request.session[k]
-    
+    # Reinitialise la vie
     team = request.session.get('team', [])
     for p in team: 
         p['hp'] = p['hp_max']
