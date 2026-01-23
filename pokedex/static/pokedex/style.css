@@ -71,23 +71,33 @@ button:hover { transform: scale(1.05); }
 /* CARTES */
 .carousel {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 1rem;
     perspective: 70rem;
     width: 100%;
-    max-width: 40rem;
+    max-width: 50rem;
     padding: 1rem;
+    grid-column: 2;
+    justify-self: center;
 }
 
-.carousel-nav {
+/* Élément Précédent (ou le vide) : on le colle à la fin de sa colonne (vers la droite) */
+.carousel-nav-prev,
+.carousel-placeholder {
+    justify-self: end; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
+    width: clamp(8rem, 12vw, 9.5rem); /* On garde ta largeur pour la consistance */
 }
 
-.carousel-placeholder {
+/* Élément Suivant : on le colle au début de sa colonne (vers la gauche) */
+.carousel-nav-next {
+    justify-self: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: clamp(8rem, 12vw, 9.5rem);
 }
 
@@ -207,6 +217,11 @@ button:hover { transform: scale(1.05); }
 }
 
 /* AJout */
+.btn-capture-container {
+    width: 100%;
+    display: flex;
+}
+
 .btn-capture {
     width: 100%;
     display: block;
@@ -218,8 +233,9 @@ button:hover { transform: scale(1.05); }
     font-weight: 600;
     transition: background 0.3s;
 }
-.btn-capture:hover { background: var(--accent); }
-
+.btn-capture:hover {
+    background: var(--accent);
+}
 
 /* Rebond */
 @keyframes bounce {
@@ -455,4 +471,45 @@ button:hover { transform: scale(1.05); }
     text-align: center;
     color: #aaa;
     text-decoration: none;
+}
+
+/* Ajout pour rendre le team-item cliquable proprement */
+.team-link {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    flex-grow: 1; /* Prend tout l'espace disponible à gauche du bouton croix */
+    cursor: pointer;
+}
+.team-link:hover {
+    opacity: 0.8;
+}
+/* Style simple pour les évolutions si pas déjà dans style.css */
+.evolutions-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.evo-circle img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    padding: 0.3rem;
+    transition: 0.2s;
+}
+.evo-circle:hover img {
+    transform: scale(1.2);
+    background: rgba(255,255,255,0.3);
+}
+
+.btn-disabled {
+    background-color: #555 !important;
+    color: #aaa !important;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none !important;
+    transform: none !important;
 }

@@ -13,14 +13,16 @@
             <img class="logo" src="{% static 'img/pokemon_logo.svg' %}" alt="Pokemon">
         </div>
 
-        <h2>My Team</h2>
+        <h2>My Team ({{ team|length }}/5)</h2>
         <div class="team-list">
             {% for member in team %}
             <div class="team-item">
-                <img src="{{ member.image }}" alt="{{ member.name }}">
-                <div class="team-info">
-                    <p>{{ member.name }}</p>
-                </div>
+                <a href="/?pokemon_name={{ member.id }}" class="team-link">
+                    <img src="{{ member.image }}" alt="{{ member.name }}">
+                    <div class="team-info">
+                        <p style="text-transform: capitalize;">{{ member.name }}</p>
+                    </div>
+                </a>
                 <a href="{% url 'remove_team_member' forloop.counter0 %}" class="btn-remove-one">×</a>
             </div>
             {% empty %}
@@ -31,6 +33,7 @@
         {% if team|length > 0 %}
         <div class="sidebar-actions">
             <a href="{% url 'clear_team' %}" class="btn-clear-team">Release All</a>
+            
             {% if team|length == 5 %}
                 <a href="{% url 'combat' %}" class="btn-battle">FIGHT !</a>
             {% endif %}
@@ -42,16 +45,14 @@
         <header>
             <form method="POST" class="search-bar">
                 {% csrf_token %}
-                <input type="text" name="pokemon_name" placeholder="Search...">
+                <input type="text" name="pokemon_name" placeholder="Name or ID...">
                 <button type="submit">GO</button>
             </form>
         </header>
 
         {% if error %}
             <div class="error-container">
-                <div class="error-message">
-                    {{ error }}
-                </div>
+                <div class="error-message">{{ error }}</div>
                 <a href="{% url 'index' %}" class="error-link">Back to Home</a>
             </div>
 
@@ -66,9 +67,7 @@
                         <img src="{{ prev_pk.image }}" alt="{{ prev_pk.name }}">
                     </div>
                 </a>
-                <a href="/?pokemon_name={{ prev_pk.id }}" class="nav-btn-circle" aria-label="Previous Pokémon">
-                    &#10094;
-                </a>
+                <a href="/?pokemon_name={{ prev_pk.id }}" class="nav-btn-circle">&#10094;</a>
             </div>
             {% else %}
             <div class="carousel-placeholder"></div>
@@ -78,7 +77,7 @@
                 <span class="bg-id">#{{ current_pk.id }}</span>
 
                 <img src="{{ current_pk.image }}" class="main-image">
-                <h1 class="pokemon-name">{{ current_pk.name }}</h1>
+                <h1 class="pokemon-name" style="text-transform: capitalize;">{{ current_pk.name }}</h1>
 
                 <div class="types-container">
                     {% for type in current_pk.types %}
@@ -101,16 +100,28 @@
                     </div>
                 </div>
 
-                <p class="evolutions-label">EVOLUTIONS</p>
-                <div class="evolutions-row">
-                    {% for evo in current_pk.evolutions %}
-                        <a href="/?pokemon_name={{ evo.id }}" class="evo-circle" title="{{ evo.name }}">
-                            <img src="{{ evo.image }}" alt="{{ evo.name }}">
-                        </a>
-                    {% endfor %}
+                {% if current_pk.evolutions %}
+                <div>
+                    <p class="evolutions-label">EVOLUTIONS</p>
+                    <div class="evolutions-row">
+                        {% for evo in current_pk.evolutions %}
+                            <a href="/?pokemon_name={{ evo.id }}" class="evo-circle" title="{{ evo.name }}">
+                                <img src="{{ evo.image }}" alt="{{ evo.name }}">
+                            </a>
+                            {% if not forloop.last %} <span style="align-self:center; color:white; opacity:0.3;">&gt;</span> {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="btn-capture-container">
+                    {% if team|length >= 5 %}
+                        <a href="#" class="btn-capture btn-disabled">Add to Team</a>
+                    {% else %}
+                        <a href="{% url 'add_to_team' current_pk.id %}" class="btn-capture">Add to Team</a>
+                    {% endif %}
                 </div>
 
-                <a href="{% url 'add_to_team' current_pk.id %}" class="btn-capture">Add to Team</a>
             </div>
 
             {% if next_pk %}
@@ -120,17 +131,13 @@
                         <img src="{{ next_pk.image }}" alt="{{ next_pk.name }}">
                     </div>
                 </a>
-                <a href="/?pokemon_name={{ next_pk.id }}" class="nav-btn-circle" aria-label="Next Pokémon">
-                    &#10095;
-                </a>
+                <a href="/?pokemon_name={{ next_pk.id }}" class="nav-btn-circle">&#10095;</a>
             </div>
             {% endif %}
 
         </div>
         {% endif %}
     </main>
-
-    
 
 </body>
 </html>
