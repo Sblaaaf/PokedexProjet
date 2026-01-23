@@ -45,7 +45,7 @@
         <header>
             <form method="POST" class="search-bar">
                 {% csrf_token %}
-                <input type="text" name="pokemon_name" placeholder="Name or ID...">
+                <input type="text" name="pokemon_name" placeholder="Search (Name or ID)...">
                 <button type="submit">GO</button>
             </form>
         </header>
@@ -108,7 +108,7 @@
                             <a href="/?pokemon_name={{ evo.id }}" class="evo-circle" title="{{ evo.name }}">
                                 <img src="{{ evo.image }}" alt="{{ evo.name }}">
                             </a>
-                            {% if not forloop.last %} <span style="align-self:center; color:white; opacity:0.3;">&gt;</span> {% endif %}
+                            {% if not forloop.last %} {% endif %}
                         {% endfor %}
                     </div>
                 </div>

@@ -79,14 +79,14 @@ def get_evolutions(species_url):
 def index(request):
     current_search = request.POST.get('pokemon_name') or request.GET.get('pokemon_name', '1')
     
-    # Gestion de la team en session
+    # Stock team
     if 'team' not in request.session:
         request.session['team'] = []
     team = request.session['team']
     
     context = {'team': team}
     
-    # Récupération du Pokémon principal
+    # Pokémon principal
     current_pk = get_pk_data(current_search)
 
     if current_pk:
@@ -97,7 +97,7 @@ def index(request):
             prev_id = current_pk['id'] - 1 if current_pk['id'] > 1 else None
             next_id = current_pk['id'] + 1 if current_pk['id'] < 251 else None
             
-            # AJOUT : Récupération des évolutions pour ce Pokémon
+            # Evolutions
             current_pk['evolutions'] = get_evolutions(current_pk['species_url'])
 
             context.update({
@@ -112,15 +112,14 @@ def index(request):
 
 def add_to_team(request, pokemon_id):
     team = request.session.get('team', [])
-    # Vérifie si le Pokémon est déjà dans l'équipe pour éviter les doublons (optionnel)
     if len(team) < 5:
-        # On vérifie qu'on n'ajoute pas le même ID deux fois (optionnel, retirez la condition if 'any...' si vous voulez des doublons)
+        # Doublons ?
         if not any(p['id'] == int(pokemon_id) for p in team):
             new_pk = get_pk_data(str(pokemon_id))
             if new_pk:
                 team.append(new_pk)
                 request.session['team'] = team
-                request.session.modified = True # Important pour sauvegarder la session
+                request.session.modified = True
     return redirect(f'/?pokemon_name={pokemon_id}')
 
 def remove_team_member(request, member_index):
