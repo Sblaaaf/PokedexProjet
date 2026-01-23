@@ -25,7 +25,6 @@ body {
     overflow: hidden;
 }
 
-/* MAIN */
 .main-content {
     transform: scale(0.95);
     flex: 1;
@@ -36,9 +35,20 @@ body {
     justify-content: center;
     overflow: hidden;
     padding: 2rem;
+    margin-left: 20rem;
+    margin-right: 0;
 }
 
-/* Recherche */
+.main-content.battle-arena-layout {
+    transform: scale(1);
+    padding: 1rem;
+    gap: 1rem;
+    justify-content: flex-start;
+    padding-top: 5rem;
+    margin-left: 18rem;
+    margin-right: 18rem;
+}
+
 .search-bar {
     background: white;
     padding: 0.75rem;
@@ -68,7 +78,6 @@ button {
 }
 button:hover { transform: scale(1.05); }
 
-/* CARTES */
 .carousel {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -82,17 +91,15 @@ button:hover { transform: scale(1.05); }
     justify-self: center;
 }
 
-/* Élément Précédent (ou le vide) : on le colle à la fin de sa colonne (vers la droite) */
 .carousel-nav-prev,
 .carousel-placeholder {
     justify-self: end; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: clamp(8rem, 12vw, 9.5rem); /* On garde ta largeur pour la consistance */
+    width: clamp(8rem, 12vw, 9.5rem);
 }
 
-/* Élément Suivant : on le colle au début de sa colonne (vers la gauche) */
 .carousel-nav-next {
     justify-self: start;
     display: flex;
@@ -146,7 +153,6 @@ button:hover { transform: scale(1.05); }
     z-index: 2;
 }
 
-/* Badges */
 .types-container {
     display: flex;
     justify-content: center;
@@ -164,14 +170,7 @@ button:hover { transform: scale(1.05); }
     color: white;
     background: #b2bec3; 
 }
-/* couleurs type */
-.type-grass { background-color: #00b894; }
-.type-fire { background-color: #ff7675; }
-.type-water { background-color: #0984e3; }
-.type-electric { background-color: #fdcb6e; }
-.type-poison { background-color: #6c5ce7; }
 
-/* Stats */
 .stats-grid {
     display: flex;
     justify-content: space-around;
@@ -184,7 +183,6 @@ button:hover { transform: scale(1.05); }
 .stat-value { display: block; font-weight: 800; font-size: 1.1rem; }
 .stat-label { font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em;}
 
-/* Évolutions */
 .evolutions-row {
     display: flex;
     justify-content: center;
@@ -216,7 +214,6 @@ button:hover { transform: scale(1.05); }
     width: 2.2rem;
 }
 
-/* AJout */
 .btn-capture-container {
     margin-top: 1rem;
     width: 100%;
@@ -238,7 +235,6 @@ button:hover { transform: scale(1.05); }
     background: var(--accent);
 }
 
-/* Rebond */
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-0.65rem); }
@@ -262,7 +258,6 @@ button:hover { transform: scale(1.05); }
     cursor: pointer;
 }
 
-/* Numéro */
 .bg-id {
     position: absolute;
     top: 1rem;
@@ -275,14 +270,12 @@ button:hover { transform: scale(1.05); }
     font-family: 'Poppins', sans-serif;
 }
 
-/* Couleurs stats */
 .stat-item { position: relative; z-index: 2; }
 .stat-val-atk { color: #e74c3c; }
 .stat-val-def { color: #2ecc71; }
 .stat-val-hp { color: #f1c40f; }
 
 
-/* nav */
 .nav-btn-circle {
     background: white;
     width: 3.1rem;
@@ -305,7 +298,6 @@ button:hover { transform: scale(1.05); }
     transform: scale(1.1);
 }
 
-/* Sidebar */
 .sidebar-header {
     display: flex;
     flex-direction: column;
@@ -352,6 +344,14 @@ button:hover { transform: scale(1.05); }
     z-index: 100;
     max-height: 100vh;
     overflow-y: auto;
+}
+
+.sidebar-left {
+    box-shadow: 0.3125rem 0 1.875rem rgba(0,0,0,0.05);
+}
+
+.sidebar-right {
+    box-shadow: -0.3125rem 0 1.875rem rgba(0,0,0,0.05);
 }
 
 .sidebar h2 { font-size: 1.2rem;}
@@ -404,7 +404,6 @@ button:hover { transform: scale(1.05); }
     gap: 0.65rem;
 }
 
-/* erreur */
 .error-container {
     display: flex;
     flex-direction: column;
@@ -424,7 +423,6 @@ button:hover { transform: scale(1.05); }
     text-decoration: underline;
 }
 
-/* BOUTONS */
 .battle-actions {
     display: flex;
     gap: 1.25rem;
@@ -477,20 +475,19 @@ button:hover { transform: scale(1.05); }
     text-decoration: none;
 }
 
-/* Ajout pour rendre le team-item cliquable proprement */
 .team-link {
     display: flex;
     gap: 1rem;
     align-items: center;
     text-decoration: none;
     color: inherit;
-    flex-grow: 1; /* Prend tout l'espace disponible à gauche du bouton croix */
+    flex-grow: 1;
     cursor: pointer;
 }
 .team-link:hover {
     opacity: 0.8;
 }
-/* Style simple pour les évolutions si pas déjà dans style.css */
+
 .evolutions-row {
     display: flex;
     justify-content: center;
@@ -517,3 +514,633 @@ button:hover { transform: scale(1.05); }
     box-shadow: none !important;
     transform: none !important;
 }
+
+.battle-selection-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-color);
+}
+
+.selection-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+    max-width: 800px;
+    width: 90%;
+}
+
+.selection-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    color: var(--text-main);
+}
+
+.selection-subtitle {
+    margin: 0 0 1.5rem 0;
+    font-size: 1rem;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.starter-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.starter-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem;
+    background: var(--bg-color);
+    border-radius: 0.8rem;
+    border: 2px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.starter-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+    transform: translateY(-2px);
+}
+
+.starter-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.starter-img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.starter-info {
+    width: 100%;
+    text-align: center;
+}
+
+.starter-name {
+    margin: 0;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: capitalize;
+    color: var(--text-main);
+}
+
+.fainted-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.btn-cancel-selection {
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--bg-color);
+    color: var(--text-main);
+    border: 2px solid #ddd;
+    border-radius: 0.6rem;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-cancel-selection:hover {
+    background: #ddd;
+}
+
+.main-content-battle {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-y: auto;
+    background-color: var(--bg-color);
+    margin-left: 18rem;
+    margin-right: 18rem;
+}
+
+.battle-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.8rem;
+}
+
+.battle-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    flex: 1;
+    text-align: center;
+}
+
+.btn-action-header {
+    padding: 0.6rem 1.2rem;
+    background: #ff7675;
+    color: white;
+    border: none;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-action-header:hover {
+    background: #d63031;
+    transform: scale(1.05);
+}
+
+.btn-action-header.secondary {
+    background: var(--accent);
+}
+
+.btn-action-header.secondary:hover {
+    background: #5e4fb8;
+}
+
+.battle-announcer {
+    text-align: center;
+    padding: 0.8rem;
+    border-radius: 0.8rem;
+    min-height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.battle-announcer p {
+    margin: 0;
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+.arena-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 0.8rem;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+}
+
+.battle-arena {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 4rem;
+}
+
+.battle-vs {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.pokemon-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    flex: 1;
+}
+
+.pokemon-img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+}
+
+.pokemon-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.pokemon-name {
+    margin: 0;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--text-main);
+    font-size: 1rem;
+}
+
+.hp-bar {
+    width: 100%;
+    height: 8px;
+    background: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.hp-fill {
+    height: 100%;
+    background: #2ecc71;
+    transition: width 0.3s ease;
+}
+
+.hp-text {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-weight: 600;
+    text-align: center;
+}
+
+.battle-actions {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 0.8rem;
+}
+
+.btn-attack {
+    padding: 0.8rem 2rem;
+    background: var(--accent);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 0.6rem;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-attack:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+}
+
+.battle-status {
+    text-align: center;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 0.8rem;
+    box-shadow: var(--shadow);
+}
+
+.status-message {
+    margin: 0 0 0.5rem 0;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #e74c3c;
+}
+
+.status-hint {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.battle-end {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 0.8rem;
+    box-shadow: var(--shadow);
+}
+
+.end-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.end-message {
+    margin: 0 0 1.5rem 0;
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+.battle-end.victory .end-title {
+    color: #2ecc71;
+}
+
+.battle-end.defeat .end-title {
+    color: #e74c3c;
+}
+
+.end-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn-new-battle, .btn-return {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 0.6rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-new-battle {
+    background: #2ecc71;
+    color: white;
+}
+
+.btn-new-battle:hover {
+    background: #27ae60;
+}
+
+.btn-return {
+    background: var(--accent);
+    color: white;
+}
+
+.btn-return:hover {
+    background: #5e4fb8;
+}
+
+.sidebar {
+    width: 18rem;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    background: white;
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.sidebar-right {
+    right: 0;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0;
+}
+
+.logo {
+    width: 60%;
+}
+
+.sidebar-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.sidebar h2 {
+    font-size: 1rem;
+    margin: 0;
+    text-align: center;
+    color: var(--text-main);
+}
+
+.team-list-battle {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.team-item-battle {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    background: var(--bg-color);
+    padding: 0.65rem;
+    border-radius: 0.9rem;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.team-item-battle.active {
+    background: #e3f2fd;
+    border-color: var(--accent);
+}
+
+.team-item-battle img {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: contain;
+}
+
+.team-info {
+    flex: 1;
+}
+
+.team-name {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.hp-bar-combat {
+    width: 100%;
+    height: 0.5rem;
+    background: #eee;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    margin-top: 0.2rem;
+}
+
+.hp-fill-combat {
+    height: 100%;
+    background: #fdcb6e;
+    transition: width 0.3s ease;
+}
+
+.hp-text-combat {
+    font-size: 0.65rem;
+    color: var(--text-light);
+    font-weight: 600;
+    display: block;
+    margin-top: 0.2rem;
+}
+
+.btn-switch-combat {
+    padding: 0.4rem 0.6rem;
+    background: #ff7675;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.7rem;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-switch-combat svg {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+}
+
+.btn-switch-combat:hover {
+    background: #5e4fb8;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9998;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.8rem;
+    text-align: center;
+    max-width: 380px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.modal-content h3 {
+    margin: 0 0 0.8rem 0;
+    font-size: 1.2rem;
+    color: var(--text-main);
+}
+
+.modal-content p {
+    margin: 0 0 1.5rem 0;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+}
+
+.btn-modal-cancel, .btn-modal-confirm {
+    padding: 0.6rem 1.3rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-modal-cancel {
+    background: #ddd;
+    color: var(--text-main);
+}
+
+.btn-modal-cancel:hover {
+    background: #bbb;
+}
+
+.btn-modal-confirm {
+    background: #ff7675;
+    color: white;
+}
+
+.btn-modal-confirm:hover {
+    background: #d63031;
+}
+
+.hp-stats-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 0.3rem;
+}
+
+.stats-text {
+    font-size: 0.65rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.types-container {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.type-badge {
+    padding: 0.3rem 0.7rem;
+    border-radius: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    text-transform: capitalize;
+}
+
+.type-badge.type-normal { background: #A8A878; }
+.type-badge.type-fire { background: #F08030; }
+.type-badge.type-water { background: #6890F0; }
+.type-badge.type-grass { background: #78C850; }
+.type-badge.type-electric { background: #F8D030; color: #333; }
+.type-badge.type-ice { background: #98D8D8; color: #333; }
+.type-badge.type-fighting { background: #C03028; }
+.type-badge.type-poison { background: #A040A0; }
+.type-badge.type-ground { background: #E0C068; color: #333; }
+.type-badge.type-flying { background: #A890F0; }
+.type-badge.type-psychic { background: #F85888; }
+.type-badge.type-bug { background: #A8B820; }
+.type-badge.type-rock { background: #B8A038; }
+.type-badge.type-ghost { background: #705898; }
+.type-badge.type-dragon { background: #7038F8; }
+.type-badge.type-dark { background: #705848; }
+.type-badge.type-steel { background: #B8B8D0; }
+.type-badge.type-fairy { background: #EE99AC; }

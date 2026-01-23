@@ -23,7 +23,9 @@ urlpatterns = [
     path('remove/<int:member_index>/', views.remove_team_member, name='remove_team_member'),
     path('clear/', views.clear_team, name='clear_team'),
     path('combat/', views.combat, name='combat'),
+    path('combat/start/<int:pokemon_idx>/', views.start_combat, name='start_combat'),
     path('attack/', views.attack_turn, name='attack_turn'),
     path('switch/<int:index>/', views.switch_pokemon, name='switch_pokemon'),
     path('reset_combat/', views.reset_combat, name='reset_combat'),
+    path('stop_combat/', views.stop_combat, name='stop_combat'),
 ]
