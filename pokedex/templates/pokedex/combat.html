@@ -54,16 +54,9 @@
             cancelBtn.addEventListener('click', handleCancel);
         }
 
-        // Stop fight avec confirmation
-        function stopFight() {
-            showConfirmModal('Stop Battle', 'Are you sure? This will end the battle.', () => {
-                window.location.href = "{% url 'stop_combat' %}";
-            });
-        }
-
-        // Run away avec confirmation
-        function runAway() {
-            showConfirmModal('Run Away', 'Abandon the battle and return to the Pokedex?', () => {
+        // Go back to pokedex
+        function goBack() {
+            showConfirmModal('Back to Pokedex', 'Are you sure? This will end the battle.', () => {
                 window.location.href = "{% url 'stop_combat' %}";
             });
         }
@@ -143,48 +136,51 @@
         {% else %}
         <!-- Écran de bataille normal -->
         <header class="battle-header-top">
-            <button class="btn-action-header" onclick="stopFight()">Stop</button>
-            <h1 class="battle-title">Battle</h1>
-            <button class="btn-action-header secondary" onclick="runAway()">Run Away</button>
+            <div class="btn_back_container">
+                <button class="btn-action-header" onclick="goBack()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M41.4 297.4C28.9 309.9 28.9 330.2 41.4 342.7L169.4 470.7C181.9 483.2 202.2 483.2 214.7 470.7C227.2 458.2 227.2 437.9 214.7 425.4L141.3 352L576 352C593.7 352 608 337.7 608 320C608 302.3 593.7 288 576 288L141.3 288L214.7 214.6C227.2 202.1 227.2 181.8 214.7 169.3C202.2 156.8 181.9 156.8 169.4 169.3L41.4 297.3z"/></svg> Back to Pokedex</button>
+            </div>
+            <div class="battle-title-wrapper">
+                <h1 class="battle-title">Battle Arena</h1>
+            </div>
         </header>
-
-        <div class="battle-announcer">
-            <p>{{ battle_log|default:"A wild opponent appears!" }}</p>
-        </div>
 
         <div class="arena-wrapper">
             <div class="battle-arena">
                 <div class="pokemon-zone player-zone">
-                    <img src="{{ player_pk.image }}" alt="{{ player_pk.name }}" class="pokemon-img">
-                    <div class="pokemon-info">
-                        <p class="pokemon-name">{{ player_pk.name|upper }}</p>
-                        <div class="types-container">
-                            {% for type in player_pk.types %}
-                                <span class="type-badge type-{{ type }}">{{ type }}</span>
-                            {% endfor %}
+                    <div class="pokemon-card">
+                        <img src="{{ player_pk.image }}" alt="{{ player_pk.name }}" class="pokemon-img">
+                        <div class="pokemon-info">
+                            <p class="pokemon-name">{{ player_pk.name|upper }}</p>
+                            <div class="types-container">
+                                {% for type in player_pk.types %}
+                                    <span class="type-badge type-{{ type }}">{{ type }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="hp-bar">
+                                <div class="hp-fill hp-fill-combat" style="width: {% widthratio player_pk.hp player_pk.hp_max 100 %}%"></div>
+                            </div>
+                            <span class="hp-text">{{ player_pk.hp }}/{{ player_pk.hp_max }}</span>
                         </div>
-                        <div class="hp-bar">
-                            <div class="hp-fill hp-fill-combat" style="width: {% widthratio player_pk.hp player_pk.hp_max 100 %}%"></div>
-                        </div>
-                        <span class="hp-text">{{ player_pk.hp }}/{{ player_pk.hp_max }}</span>
                     </div>
                 </div>
 
                 <div class="battle-vs">VS</div>
 
                 <div class="pokemon-zone enemy-zone">
-                    <img src="{{ ai_pk.image }}" alt="{{ ai_pk.name }}" class="pokemon-img">
-                    <div class="pokemon-info">
-                        <p class="pokemon-name">{{ ai_pk.name|upper }}</p>
-                        <div class="types-container">
-                            {% for type in ai_pk.types %}
-                                <span class="type-badge type-{{ type }}">{{ type }}</span>
-                            {% endfor %}
+                    <div class="pokemon-card">
+                        <img src="{{ ai_pk.image }}" alt="{{ ai_pk.name }}" class="pokemon-img">
+                        <div class="pokemon-info">
+                            <p class="pokemon-name">{{ ai_pk.name|upper }}</p>
+                            <div class="types-container">
+                                {% for type in ai_pk.types %}
+                                    <span class="type-badge type-{{ type }}">{{ type }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="hp-bar">
+                                <div class="hp-fill hp-fill-combat" style="width: {% widthratio ai_pk.hp ai_pk.hp_max 100 %}%"></div>
+                            </div>
+                            <span class="hp-text">{{ ai_pk.hp }}/{{ ai_pk.hp_max }}</span>
                         </div>
-                        <div class="hp-bar">
-                            <div class="hp-fill hp-fill-combat" style="width: {% widthratio ai_pk.hp ai_pk.hp_max 100 %}%"></div>
-                        </div>
-                        <span class="hp-text">{{ ai_pk.hp }}/{{ ai_pk.hp_max }}</span>
                     </div>
                 </div>
             </div>
